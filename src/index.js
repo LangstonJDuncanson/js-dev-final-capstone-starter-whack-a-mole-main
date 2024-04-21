@@ -68,7 +68,7 @@ function setDelay(difficulty) {
  */
 function chooseHole(holes) {
   // TODO: Write your code here.
-   const chosenHoleNumber = randomInteger(0,8);
+   let chosenHoleNumber = randomInteger(0,8);
    while (chosenHoleNumber == lastHole){
     chosenHoleNumber = randomInteger(0,8);
    }
@@ -199,7 +199,10 @@ function clearScore() {
 function updateTimer() {
   // TODO: Write your code here.
   // hint: this code is provided to you in the instructions.
-  
+  if (time > 0){
+    time -= 1;
+    timerDisplay.textContent = time;
+  }
   return time;
 }
 
@@ -211,7 +214,7 @@ function updateTimer() {
 */
 function startTimer() {
   // TODO: Write your code here
-  // timer = setInterval(updateTimer, 1000);
+  timer = setInterval(updateTimer, 1000);
   return timer;
 }
 
@@ -237,7 +240,7 @@ function whack(event) {
 */
 function setEventListeners(){
   // TODO: Write your code here
-  moles.forEach( (mole) => mole.addEventListener('click', whack));
+  moles.forEach((mole) => mole.addEventListener('click', whack));
   return moles;
 }
 
@@ -271,9 +274,11 @@ function stopGame(){
 *
 */
 function startGame(){
+  clearScore();
   setDuration(10);
   showUp();
   setEventListeners();
+  startTimer();
   return "game started";
 }
 
