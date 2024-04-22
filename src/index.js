@@ -14,7 +14,6 @@ let hitSound = new Audio("../assets/hit.mp3");
 let moleMusic = new Audio("../assets/molesong.mp3");
 let goodMole = false;
 moleMusic.loop=true;
-moleMusic.play();
 let timerBoost = 0;
 let goodMoleFrequency = 0;
 
@@ -308,6 +307,7 @@ function startGame(){
   showUp();
   setEventListeners();
   startTimer();
+  moleMusic.play();
   return "game started";
 }
 
