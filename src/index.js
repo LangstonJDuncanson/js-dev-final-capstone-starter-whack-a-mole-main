@@ -10,6 +10,13 @@ let timer;
 let lastHole = 0;
 let points = 0;
 let difficulty = "hard";
+let hitSound = new Audio("../assets/hit.mp3"); 
+let moleMusic = new Audio("../assets/molesong.mp3");
+let goodMole = false;
+moleMusic.loop=true;
+moleMusic.play();
+let timerBoost = 0;
+let goodMoleFrequency = 0;
 
 /**
  * Generates a random integer within a range.
@@ -42,12 +49,15 @@ function randomInteger(min, max) {
 function setDelay(difficulty) {
   // TODO: Write your code here.
   if (difficulty == "easy") {
+    goodMoleFrequency = 9;
     return 1500;
   }
   if (difficulty == "normal") {
+    goodMoleFrequency = 7;
     return 1000;
   }
   if (difficulty == "hard") {
+    goodMoleFrequency = 5;
     return randomInteger(600,1200);
   }
 }
@@ -74,6 +84,16 @@ function chooseHole(holes) {
    }
    // Poor Method of selecting hole with querySelector || const chosenHole = document.querySelector(`.hole${chosenHoleNumber}`);
    const chosenHole = holes[chosenHoleNumber];
+   const chosenMole = moles[chosenHoleNumber];
+   if(randomInteger(1,10) > goodMoleFrequency)
+   {
+    chosenMole.classList.add('goodMole');
+      goodMole = true;
+   }
+   else {
+    chosenMole.classList.remove('goodMole');
+    goodMole = false;
+   }
    return chosenHole;
 }
 
@@ -170,7 +190,14 @@ function toggleVisibility(hole){
 */
 function updateScore() {
   // TODO: Write your code here
-  points += 1;
+  goodMole == true ? points -= 1 :  points += 1;
+  if(points / 10 >= timerBoost + 1) {
+    time += 10;
+    timerBoost += 1;
+    console.log("Time Boosted by 10");
+    console.log(`Points is: ${points} and TimerBoost is: ${timerBoost}`);
+    updateTimer();
+  }
   score.textContent = points;
   return points;
 }
@@ -229,6 +256,7 @@ function startTimer() {
 function whack(event) {
   // TODO: Write your code here.
   // call updateScore()
+  hitSound.play();
   updateScore();
   return points;
 }
@@ -274,14 +302,35 @@ function stopGame(){
 *
 */
 function startGame(){
+  promptDifficulty();
   clearScore();
-  setDuration(10);
+  setDuration(30);
   showUp();
   setEventListeners();
   startTimer();
   return "game started";
 }
 
+function promptDifficulty(){
+  let difficultyInput = -1;
+  while(difficultyInput == -1){
+    difficultyInput = prompt("What Level Diffculty: 0 : Easy | 1 : Normal | 2 : Hard");
+    if(difficultyInput == 0){
+      difficulty = "easy";
+      return difficulty;
+    }
+    if(difficultyInput == 1){
+      difficulty = "normal";
+      return difficulty;
+    }
+    if(difficultyInput == 2){
+      difficulty = "hard";
+      return difficulty;
+    }
+    alert("Not a valid choice please select appropriate difficulty.");
+    difficultyInput = -1;
+}
+}
 startButton.addEventListener("click", startGame);
 
 

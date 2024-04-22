@@ -10,6 +10,10 @@ html {
   overflow: hidden;
 }
 
+body {
+  cursor: url('../assets/mallet.png'),auto;
+}
+
 h1 {
   text-align: center;
   font-size: 90px;
@@ -73,6 +77,17 @@ h2 {
   height: 100%;
   /*transition: transform 0.5s;*/
   transition: all 1s;
+  pointer-events:auto;
+}
+
+.goodMole {
+  background:url('../assets/mole2.png') bottom center no-repeat;
+  background-size: 40%;
+  position: absolute;
+  top: 100%;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.5s;
   pointer-events:auto;
 }
 
